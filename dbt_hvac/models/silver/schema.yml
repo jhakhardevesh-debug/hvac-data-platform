@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: silver_sensor_readings
+    description: "Cleaned and enriched HVAC sensor readings"
+    columns:
+      - name: reading_id
+        description: "Unique reading identifier"
+        tests:
+          - unique
+          - not_null
+
+      - name: building_id
+        description: "Building identifier"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['BLDG_001', 'BLDG_002', 'BLDG_003', 'BLDG_004', 'BLDG_005']
+
+      - name: quality_flag
+        description: "Data quality classification"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['VALID', 'ANOMALY_DETECTED', 'SENSOR_NULL_TEMP',
+                       'OUT_OF_RANGE_TEMP', 'SENSOR_NULL_ENERGY']
+
+      - name: compressor_status
+        tests:
+          - accepted_values:
+              values: ['RUNNING', 'IDLE', 'STANDBY', 'ERROR']
+
+      - name: reading_timestamp
+        tests:
+          - not_null

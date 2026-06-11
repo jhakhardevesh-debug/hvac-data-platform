@@ -1,0 +1,18 @@
+version: 2
+
+sources:
+  - name: bronze
+    database: HVAC_DB
+    schema: BRONZE
+    tables:
+      - name: raw_sensor_readings
+        description: "Raw HVAC sensor readings loaded from S3"
+
+  - name: reference
+    database: HVAC_DB
+    schema: REFERENCE
+    tables:
+      - name: dim_buildings
+        description: "UAE/Middle East building reference data"
+      - name: dim_equipment
+        description: "HVAC equipment catalog"
