@@ -94,5 +94,31 @@ hvac-data-platform/
 │   ├── simulator/
 │   └── ingestion/
 ├── airflow/
+│   └── dags/
+│       └── hvac_pipeline_dag.py
+├── simulator/
+├── ingestion/
 └── README.md
 ```
+
+---
+
+## Airflow Orchestration
+
+The pipeline is fully automated via an Apache Airflow DAG running on a daily schedule. All 5 tasks execute in sequence — each task only starts if the previous one succeeds.
+
+```
+generate_hvac_data → upload_to_s3 → load_to_snowflake → dbt_run → dbt_test
+```
+
+| Task | What it does |
+| --- | --- |
+| generate_hvac_data | Runs the Python simulator to generate daily sensor readings |
+| upload_to_s3 | Uploads NDJSON files to S3 with Hive-style date partitioning |
+| load_to_snowflake | Executes COPY INTO to load new S3 files into Bronze |
+| dbt_run | Runs all dbt models — Silver incremental + Gold tables |
+| dbt_test | Runs all 8 dbt data quality tests |
+
+DAG configuration: `@daily` schedule, 2 retries per task with 5-minute retry delay, `catchup=False`.
+
+Full DAG run time: ~2 minutes end to end.
