@@ -1,15 +1,4 @@
 # Smart HVAC Monitoring & Energy Optimization
-### End-to-End Data Engineering Portfolio Project
-
-![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python)
-![Apache Airflow](https://img.shields.io/badge/Apache%20Airflow-2.x-017CEE?logo=apacheairflow)
-![AWS S3](https://img.shields.io/badge/AWS%20S3-Storage-FF9900?logo=amazons3)
-![Snowflake](https://img.shields.io/badge/Snowflake-Data%20Warehouse-29B5E8?logo=snowflake)
-![dbt](https://img.shields.io/badge/dbt-Core-1.8-FF694B?logo=dbt)
-![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?logo=docker)
-![CI/CD](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-2088FF?logo=githubactions)
-
----
 
 ## Overview
 
@@ -57,21 +46,18 @@ The HVAC simulator generates sensor data for 5 commercial buildings across UAE/M
 
 Raw JSON records are uploaded to S3 with Hive-style date partitioning:
 
-```
 s3://hvac-raw-data-devesh/
   year=2026/
     month=01/
       day=01/
         hvac_data_20260101.json
-```
+
 
 ### Orchestration Layer — Apache Airflow
 
 A single DAG orchestrates the full pipeline on a daily schedule:
 
-```
 simulate_data → upload_to_s3 → load_to_snowflake → run_dbt → test_dbt
-```
 
 Each task only starts if the previous one succeeds.
 
@@ -99,7 +85,6 @@ Three-layer medallion architecture inside `HVAC_DB`:
 
 ## Project Structure
 
-```
 hvac-data-platform/
 ├── .github/
 │   └── workflows/
@@ -126,7 +111,6 @@ hvac-data-platform/
 ├── .dockerignore
 ├── requirements.txt
 └── README.md
-```
 
 ---
 
