@@ -85,6 +85,7 @@ Three-layer medallion architecture inside `HVAC_DB`:
 
 ## Project Structure
 
+'''
 hvac-data-platform/
 ├── .github/
 │   └── workflows/
@@ -111,7 +112,7 @@ hvac-data-platform/
 ├── .dockerignore
 ├── requirements.txt
 └── README.md
-
+'''
 ---
 
 ## CI/CD
