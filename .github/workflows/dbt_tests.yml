@@ -30,4 +30,4 @@ jobs:
           SNOWFLAKE_DATABASE: ${{ secrets.SNOWFLAKE_DATABASE }}
           SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
         run: |
-          dbt test --project-dir hvac_dbt --profiles-dir hvac_dbt
+          dbt test --project-dir dbt_hvac --profiles-dir dbt_hvac
