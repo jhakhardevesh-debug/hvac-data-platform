@@ -1,0 +1,94 @@
+<svg width="680" height="620" viewBox="0 0 680 620" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>HVAC Data Platform Architecture</title>
+<desc>End-to-end data pipeline: HVAC Simulator to S3 to Airflow to Snowflake Bronze/Silver/Gold to dbt to Docker and CI/CD</desc>
+
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+</defs>
+
+<!-- Background -->
+<rect width="680" height="620" fill="#ffffff"/>
+
+<!-- Title -->
+<text x="340" y="30" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="500" fill="#1a1a1a">Smart HVAC monitoring — pipeline architecture</text>
+
+<!-- Row 1: Simulator -->
+<rect x="240" y="52" width="200" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="340" y="76" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="500" fill="#085041">HVAC simulator</text>
+<text x="340" y="96" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" fill="#0F6E56">864,000 sensor readings · Python</text>
+
+<!-- Arrow 1 -->
+<line x1="340" y1="108" x2="340" y2="136" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="355" y="126" font-family="Arial,sans-serif" font-size="11" fill="#666">JSON</text>
+
+<!-- Row 2: AWS S3 -->
+<rect x="240" y="140" width="200" height="56" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+<text x="340" y="164" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="500" fill="#412402">AWS S3</text>
+<text x="340" y="184" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" fill="#854F0B">Raw storage · Hive partitioning</text>
+
+<!-- Arrow 2 -->
+<line x1="340" y1="196" x2="340" y2="224" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="355" y="214" font-family="Arial,sans-serif" font-size="11" fill="#666">Trigger</text>
+
+<!-- Row 3: Airflow -->
+<rect x="240" y="228" width="200" height="56" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="340" y="252" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="500" fill="#26215C">Apache Airflow</text>
+<text x="340" y="272" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" fill="#534AB7">DAG orchestration · daily schedule</text>
+
+<!-- Arrow 3 -->
+<line x1="340" y1="284" x2="340" y2="312" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="355" y="302" font-family="Arial,sans-serif" font-size="11" fill="#666">COPY INTO</text>
+
+<!-- Snowflake container -->
+<rect x="44" y="316" width="592" height="140" rx="12" fill="none" stroke="#aaa" stroke-width="0.5" stroke-dasharray="5,4"/>
+<text x="58" y="336" font-family="Arial,sans-serif" font-size="11" fill="#888">Snowflake — medallion architecture</text>
+
+<!-- Bronze -->
+<rect x="64" y="344" width="160" height="96" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/>
+<text x="144" y="378" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="500" fill="#4A1B0C">Bronze</text>
+<text x="144" y="398" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" fill="#993C1D">RAW_SENSOR_READINGS</text>
+<text x="144" y="416" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" fill="#993C1D">VARIANT · raw JSON</text>
+
+<!-- Arrow Bronze → Silver -->
+<line x1="224" y1="392" x2="254" y2="392" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+<!-- Silver -->
+<rect x="258" y="344" width="164" height="96" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="340" y="378" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="500" fill="#042C53">Silver</text>
+<text x="340" y="398" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" fill="#185FA5">SILVER_SENSOR_READINGS</text>
+<text x="340" y="416" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" fill="#185FA5">Cleaned · enriched</text>
+
+<!-- Arrow Silver → Gold -->
+<line x1="422" y1="392" x2="452" y2="392" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+<!-- Gold -->
+<rect x="456" y="344" width="164" height="96" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="538" y="370" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="500" fill="#04342C">Gold</text>
+<text x="538" y="390" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" fill="#0F6E56">Energy summary</text>
+<text x="538" y="408" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" fill="#0F6E56">Equipment health</text>
+<text x="538" y="426" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" fill="#0F6E56">Anomaly alerts</text>
+
+<!-- Arrow from Snowflake container down -->
+<line x1="340" y1="456" x2="340" y2="484" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="355" y="474" font-family="Arial,sans-serif" font-size="11" fill="#666">dbt run + test</text>
+
+<!-- dbt -->
+<rect x="110" y="488" width="200" height="56" rx="8" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+<text x="210" y="512" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="500" fill="#173404">dbt Core</text>
+<text x="210" y="532" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" fill="#3B6D11">4 models · 8 tests · lineage</text>
+
+<!-- Docker + CI/CD -->
+<rect x="370" y="488" width="200" height="56" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="470" y="512" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="500" fill="#26215C">Docker + CI/CD</text>
+<text x="470" y="532" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" fill="#534AB7">GitHub Actions · auto dbt tests</text>
+
+<!-- Arrow dbt → CI/CD -->
+<line x1="310" y1="516" x2="368" y2="516" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+<!-- Legend bar -->
+<rect x="44" y="572" width="592" height="36" rx="6" fill="none" stroke="#ddd" stroke-width="0.5"/>
+<text x="60" y="594" font-family="Arial,sans-serif" font-size="11" font-weight="500" fill="#333">Stack:</text>
+<text x="100" y="594" font-family="Arial,sans-serif" font-size="11" fill="#555">Python · Apache Airflow · AWS S3 · Snowflake · dbt Core · Docker · GitHub Actions</text>
+</svg>
